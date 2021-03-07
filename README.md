@@ -3,8 +3,8 @@ Materiały na zajęcia z Technologii Internetowych w Przetwarzaniu Rozproszonym.
 Zajęcia z technologii ASP.NET 5.0 MVC.
 
 ### Przygotowanie środowiska
-1. Należy pobrać SDK .NET w wersji 5.0. Link: <https://dotnet.microsoft.com/download/dotnet/5.0>   
-Ważne, aby pobrać wersję _Hosting_ _Bundle_.
+1. Należy pobrać SDK .NET w wersji 5.0. Link: <https://dotnet.microsoft.com/download/dotnet/5.0>.   
+Ważne, aby pobrać SDK oraz .NET Runtime w wersji _Hosting_ _Bundle_.
 2. Pobrać ten projekt lokalnie na komputer.
 3. Serwer uruchamia się komendą: `dotnet run`
 4. W przypadku problemów z uruchomieniem, najprostszym rozwiązaniem będzie utworzenie nowego   
