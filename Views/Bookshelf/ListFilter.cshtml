@@ -1,0 +1,49 @@
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["title"] = "List";
+    @model Zajecia_ASPNET.Models.BookModel;
+}
+
+<h2> Lista książek </h2>
+
+<div class="main_list">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tytuł</th>
+                <th>Autor</th>
+                <th>Rok wydania</th>
+                <th>Wydawca</th>
+                <th>ISBN</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            @{
+            var books = ViewData["BookList"] as List<BookModel>;
+            @if(books != null)
+            {
+                foreach (var item in books)
+                {
+                    <tr>
+                        <td><b>@item.BookId</b></td>
+                        <td>@item.Title</td>
+                        <td>@item.Author</td>
+                        <td>@item.YearOfPublication</td>
+                        <td>@item.Publisher</td>
+                        <td>@item?.ISBN</td>
+                    </tr>
+                }
+            }
+        }
+        </tbody>
+    </table>
+</div>
+
+<div class="error_info">
+    @ViewData["error"]
+</div>

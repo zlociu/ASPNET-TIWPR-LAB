@@ -49,7 +49,7 @@ namespace Zajecia_ASPNET
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseFileServer(false);
 
             app.UseRouting();
 

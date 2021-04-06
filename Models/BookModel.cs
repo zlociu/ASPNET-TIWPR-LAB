@@ -22,7 +22,7 @@ namespace Zajecia_ASPNET.Models
         [Required]
         public int YearOfPublication { get; set; }
 
-        [RegularExpression(@"^([0-9]{3})*([0-9]{2}-([0-9]{2,6}-[0-9]{1,5}){7}-[0-9]{1})$")]
+        [RegularExpression(@"^([0-9]{3}-)?([0-9]{2}-(([0-9]{2}-[0-9]{5})|([0-9]{3}-[0-9]{4})|([0-9]{4}-[0-9]{3})|([0-9]{5}-[0-9]{2})|([0-9]{6}-[0-9]{1}))-[0-9]{1})$")]
         public string? ISBN { get; set; }
         
     }

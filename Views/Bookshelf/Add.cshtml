@@ -1,0 +1,45 @@
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["title"] = "Add";
+    @model Zajecia_ASPNET.Models.BookModel;
+}
+
+<h2> Dodaj książkę </h2>
+
+<div class="form_unit">
+    @using (@Html.BeginForm("Add", "Bookshelf", FormMethod.Post))
+    {
+        <div class="form_element">
+            <p>Tytuł</p>
+            @Html.TextBoxFor(model => model.Title, new { Placeholder = "title", Class = "text_input" })
+        </div>
+        <div class="form_element">
+            <p>Autor</p>
+            @Html.TextBoxFor(model => model.Author, new { Placeholder = "author", Class = "text_input" })
+        </div>
+        <div class="form_element">
+            <p>Rok publikacji</p>
+            @Html.TextBoxFor(model => model.YearOfPublication, new { Placeholder = "year", Class = "text_input" })
+        </div>
+        <div class="form_element">
+            <p>Wydawca</p>
+            @Html.TextBoxFor(model => model.Publisher, new { Placeholder = "publisher", Class = "text_input" })
+        </div>
+        <div class="form_element">
+            <p>ISBN (opcja)</p>
+            @Html.TextBoxFor(model => model.ISBN, new { Placeholder = "ISBN", Class = "text_input" })
+        </div>
+        <div class="form_element" style="justify-content: center;">
+            <input type="submit" value="Dodaj" class="submit" />
+        </div>
+    }
+</div>
+<div class="error_info">
+    @ViewData["error"]
+</div>
+<div class="success_info">
+    @ViewData["success"]
+</div>

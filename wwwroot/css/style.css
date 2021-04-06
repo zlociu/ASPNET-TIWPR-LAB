@@ -1,6 +1,169 @@
 *{
     padding: 0;
     margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+header{
+    height: 70pt;
+    background-color: #6d16e7;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    color: white;
+}
+
+div.header_container{
+    width: 60%;
+    margin: auto;   
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1{
+    color: white;
+    font-weight: normal;
+}
+
+h2{
+    font-size: 20pt;
+    color: #6c82ef;
+    padding-bottom: 10pt;
+    width: auto;
+    margin: auto;
+    margin-top: 0; margin-bottom: 0;
+}
+
+p {
+    line-height: 160%;
+    text-align: justify;
+}
+
+a{
+    color: #6d16e7;
+    font-weight: bold;
+}
+
+a:link, a:visited, a:active{
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+nav{
+    color: white;
+    font-size: 13pt;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+nav a{
+    color: white;
+    margin: 10pt;
+}
+
+div.main_container{
+    width: 100%;
+    display: flex;
+}
+
+main{
+    padding: 20pt 0 ;
+    width: 70%;
+    margin: auto;
+    min-height: 371pt;
+    display:flex;
+    justify-content: baseline;
+    flex-direction: column;
+    align-items: center;
+}
+
+div.form_unit{
+    display: flex;
+    justify-content: center;
+}
+
+form{
+    width: 300pt;
+    display: flex;
+    flex-direction: column;
+}
+
+div.form_element{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10pt;
+}
+
+div.form_element p{
+    font-weight: bold;
+}
+
+input.text_input, input.text_input:active{
+    width: 175pt;
+    height: 30pt;
+    border: none;
+    border-bottom: 2pt solid #6c82ef;
+    font-size: 12pt;
+}
+
+input.submit{
+    width: 100pt;
+    height: 30pt;
+    border: none;
+    background-color: #6c82ef;
+    color: white;
+    font-size: 12pt;
+    border-radius: 3pt;
+}
+
+table{
+    /* border: 2pt solid #6c82ef; */
+    border-collapse: collapse;
+    border-spacing: 5pt;
 }
 
 
+tr{
+    border-bottom: 2pt solid #6c82ef;
+}
+
+tr:nth-child(even){
+    background-color: #c8cff9;
+}
+
+td, th{
+    padding: 10pt;
+    
+}
+
+td:nth-of-type(2){
+    font-style: italic;
+    text-align: center;
+}
+
+div.error_info{
+    color: #f00;
+}
+
+div.success_info{
+    color: #00b080;
+}
+
+footer{
+    height: 35pt;
+    background-color: #6d16e7;
+    display: flex;
+    flex-direction: row;
+    color: white;
+    justify-content: center;
+    align-items: center;
+}

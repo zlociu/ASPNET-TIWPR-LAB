@@ -36,10 +36,21 @@ namespace Zajecia_ASPNET.Controllers
         [HttpGet]
         [Route("")]
         [Route("[action]")]
-        public IActionResult List()
+        public IActionResult List([FromQuery] int? sort)
         {
-            return View(_dbContext.Books.ToList());
+            if(sort == 1) ViewData["BookList"] = _dbContext.Books.OrderBy((x) => x.YearOfPublication).ToList();
+            else ViewData["BookList"] = _dbContext.Books.ToList();
+            return View();
         }
+
+        /*[HttpGet]
+        [Route("[action]")]
+        public IActionResult List([FromQuery] int year)
+        {
+            ViewData["BookList"] = _dbContext.Books.ToList();
+            return View();
+        }
+        */
 
         [HttpGet]
         [Route("[action]")]
@@ -56,63 +67,50 @@ namespace Zajecia_ASPNET.Controllers
             {
                 _dbContext.Books.Add(model);
                 _dbContext.SaveChanges();
-                ViewData["status"] = "Succesfully added new item";
+                ViewData["success"] = "Succesfully added new item";
                 return View();
             }
             else
             {
-                ViewData["status"] = "Wrong form";
+                ViewData["error"] = "Invalid data";
                 return View();
             }
             
         }
 
-        [HttpDelete]
-        [Route("[action]")]
-        public IActionResult Delete([FromQuery] int? id, [FromQuery] string? title)
+        [HttpGet]
+        [Route("[action]/{id:int}")]
+        public IActionResult Delete([FromRoute] int id)
         {   
-            if(id is null)
+            if(ModelState.IsValid)
             {
                 var item = _dbContext.Books.Find(id);
                 if(item != null)
                 { 
                     _dbContext.Remove(item);
+                    _dbContext.SaveChanges();
                     return Ok(new {status = "Success"});
                 }
                 else
                 {
-                   return BadRequest(new {status = "Error - wrong input ID"});
+                   return BadRequest(new {status = "Error - wrong ID"});
                 }
             }
             else
             {
-                if(title is null)
-                {
-                    return BadRequest(new {status = "Error - wrong query"});
-                }   
-                else
-                {
-                    var item = _dbContext.Books.FirstOrDefault(book => book.Title == title);
-                    if(item != null)
-                    { 
-                        _dbContext.Remove(item);
-                        return Ok(new {status = "Success"});
-                    }
-                    else
-                    {
-                        return BadRequest(new {status = "Error - no book with input title"});
-                    }
-                }
+                return BadRequest(new {status = "Error - wrong query"});  
             }
         }
 
         [HttpGet]
         [Route("[action]")]
-        public IActionResult ListFilter([FromQuery] object year)
+        public IActionResult ListFilter([FromQuery] int year)
         {   
-            var yr = (int) year;
+            var yr = year;
             if(yr < 1900 || yr > DateTime.Now.Year) return RedirectToAction("List");
-
+            ViewData["BookList"] = (from book in _dbContext.Books 
+                                    where book.YearOfPublication > yr
+                                    select book).ToList();
 
             return View();
         }
