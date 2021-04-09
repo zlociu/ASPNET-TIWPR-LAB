@@ -29,14 +29,17 @@
             {
                 foreach (var item in books)
                 {
-                    <tr>
-                        <td><b>@item.BookId</b>.</td>
-                        <td>@item.Title</td>
-                        <td>@item.Author</td>
-                        <td>@item.YearOfPublication</td>
-                        <td>@item.Publisher</td>
-                        <td>@item?.ISBN</td>
-                    </tr>
+                    
+                        <tr>
+                            <td>
+                                <a href="@Url.Action( "update", "bookshelf", new { @id = item.BookId } )">@item.BookId.</a>
+                            </td>
+                            <td>@item.Title</td>
+                            <td>@item.Author</td>
+                            <td>@item.YearOfPublication</td>
+                            <td>@item.Publisher</td>
+                            <td>@item?.ISBN</td>
+                        </tr>
                 }
             }
         }

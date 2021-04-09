@@ -43,11 +43,11 @@ namespace Zajecia_ASPNET.Controllers
             return View();
         }
 
-        /*[HttpGet]
-        [Route("[action]")]
-        public IActionResult List([FromQuery] int year)
+        //[HttpGet]
+        //[Route("[action]")]
+        /* public IActionResult List([FromQuery] string sortColumn)
         {
-            ViewData["BookList"] = _dbContext.Books.ToList();
+            ViewData["BookList"] = _dbContext.Books.OrderBy(<lambda fn>).ToList();
             return View();
         }
         */
@@ -59,6 +59,7 @@ namespace Zajecia_ASPNET.Controllers
             return View();
         }
 
+        //public IActionResult Add( BookModel model)
         [HttpPost]
         [Route("[action]")]
         public IActionResult Add([FromForm] BookModel model)
@@ -78,7 +79,25 @@ namespace Zajecia_ASPNET.Controllers
             
         }
 
-        [HttpGet]
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult AddBody([FromBody] BookModel model)
+        {   
+            if(ModelState.IsValid)
+            {
+                _dbContext.Books.Add(model);
+                _dbContext.SaveChanges();
+                
+                return Ok(new {status = "success"});
+            }
+            else
+            {
+                return BadRequest(new {status="error"});
+            }
+            
+        }
+
+        [HttpDelete]
         [Route("[action]/{id:int}")]
         public IActionResult Delete([FromRoute] int id)
         {   
@@ -104,6 +123,24 @@ namespace Zajecia_ASPNET.Controllers
 
         [HttpGet]
         [Route("[action]")]
+        public IActionResult Update([FromQuery] int id)
+        {
+            var book = _dbContext.Books.FirstOrDefault((x) => x.BookId == id);
+            return View(book);
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult Update([FromForm] BookModel model)
+        {
+            _dbContext.Books.Update(model);
+            _dbContext.SaveChanges();
+
+            return RedirectToAction("List");
+        }
+
+        [HttpGet]
+        [Route("[action]")]
         public IActionResult ListFilter([FromQuery] int year)
         {   
             var yr = year;
@@ -112,21 +149,65 @@ namespace Zajecia_ASPNET.Controllers
                                     where book.YearOfPublication > yr
                                     select book).ToList();
 
-            return View();
+            return View("List");
         }
     }
 
 
-    /*
-        Add( [FromForm] BookModel )
+    /* --------------------------------< ZADANIA >------------------------------
 
-        Update( [FromForm] BookModel )
+    0.  Opcjonalnie przed rozpoczęciem prac można skompilować projekt i sprawdzić czy endpoint 
+        '/bookshelf/test' działa. Można sprawdzić w przeglądarce.
 
-        Delete( [FromForm] BookModel )
+    1.  Stworzyć endpoint 'List' zwracający stronę WWW wyświetlającą wszystkie książki z tabeli 'Books'  
 
-        List( )
+    2.1 Stworzyć endpoint 'Add' typu 'HttpGet' zwracający stronę WWW wyświetlającą formularz do wypełnienia.
+    2.2 Stworzyć endpoint 'Add' typu 'HttpPost' obsługujący podane dane przesłane przyciskiem na stronie WWW.
+        Zapis do bazy danych:  
 
-        ListFilter( [FromQuery] int year)
+        // _dbContext.Books.Add(model);
+        // _dbContext.SaveChanges();
+
+        2.2.1 Opcjonalnie dodać wyświetlanie błędów poprzez przekazanie odpowiedniej informacji. 
+            Należy pamiętać o sprawdzaniu poprawności przesłanego formularza (właściwość: ModelState.IsValid)
+            
+            // ViewData["success"] = "Succesfully added new item";
+            // ViewData["error"] = "Invalid data";
+
+    3.1 Stworzyć endpoint 'Update' typu 'HttpGet' zwracający stronę WWW wyświetlającą formularz wypełniony 
+        danymi o konkretnej książce. Dane są przekazywane poprzez link dostępny na stronie 'List' w tabeli, w miejscu ID.
+        Link ten wygląda: "/bookshelf/update/{id}"
+        Należy pobrać informacje o książce o podanym ID i przekazać do odpowiedniego widoku.
+
+        // var model = <książka o id ...>
+        // return View(model); 
+
+    3.2 Stworzyć endpoint 'Update' typu 'HttpPost' wprowadzającą zmiany w książce i zapisujące do BD.
+
+    4.  Stworzyć endpoint 'Delete' typu 'HttpDelete' usuwający książkę o podanym ID.
+        Endpoint powinien mieć budowę '/bookshelf/delete/{id}'
+        Poprawność działania można sprawdzić poprzez dołączony skrypt TestClient.fsx.
+        Uruchamia się go: 'dotnet fsi TestClient.fsx', należy w tym pliku jedynie odkomentować wybraną funkcję (tutaj: Delete)
+
+        // var item = _dbContext.Books.Find(id);
+        // _dbContext.Remove(item);
+
+        Należy sprawdzić czy 'item' o podanym ID istnieje, bowiem funkcja 'Find' zwróci typ 'BookModel?' czyli 
+        dopuszczający wartość null.
+
+    5.  Stworzyć endpoint 'ListFilter' typu 'HttpGet' wyświetlający książki, których rok wydania jest późniejszy,
+        niż podany w parametrze z atrybutem 'FromQuery'
+
+    6.v1 [Jak starczy czasu na zajeciach] Dodać do endpointu 'List' parametr wskazujący, 
+        według jakiej kolumny ma być sortowana zawartość listy. 
+        Parametr jako 'FromQuery', oraz powinien dopuszczać wartość null.
+       
+    6.v2 [Łatwiejsza wersja względem v1] Zrobienie flagi która wskazuje czy powinno się sortować zawartość, 
+        kolumnę można wybrać na sztywno. 
+
+    7.  [Jak starczy czasu na zajeciach] Stworzyć endpoint 'AddBody' typu 'HttpPost', 
+        który przyjmuje tym razem obiekt w formacie JSON w ciele rządania HTTP ('FromBody'). 
+        Do testów można użyć również skryptu 'TestClient.fsx', wystarczy odpowiednio usunąć komentarze. 
 
     */
 }
