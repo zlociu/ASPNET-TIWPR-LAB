@@ -59,7 +59,6 @@ namespace Zajecia_ASPNET.Controllers
             return View();
         }
 
-        //public IActionResult Add( BookModel model)
         [HttpPost]
         [Route("[action]")]
         public IActionResult Add([FromForm] BookModel model)
@@ -88,13 +87,12 @@ namespace Zajecia_ASPNET.Controllers
                 _dbContext.Books.Add(model);
                 _dbContext.SaveChanges();
                 
-                return Ok(new {status = "success"});
+                return StatusCode(201, new {status = "success"});
             }
             else
             {
                 return BadRequest(new {status="error"});
             }
-            
         }
 
         [HttpDelete]
@@ -187,7 +185,8 @@ namespace Zajecia_ASPNET.Controllers
     4.  Stworzyć endpoint 'Delete' typu 'HttpDelete' usuwający książkę o podanym ID.
         Endpoint powinien mieć budowę '/bookshelf/delete/{id}'
         Poprawność działania można sprawdzić poprzez dołączony skrypt TestClient.fsx.
-        Uruchamia się go: 'dotnet fsi TestClient.fsx', należy w tym pliku jedynie odkomentować wybraną funkcję (tutaj: Delete)
+        Uruchamia się go: 'dotnet fsi TestClient.fsx', należy w tym pliku jedynie odkomentować wybraną funkcję (tutaj: Delete).
+        Jeśli podczas uruchomienia pokaże się komunikat: 'SSL error', należy wpisać: 'dotnet dev-certs https --trust'.
 
         // var item = _dbContext.Books.Find(id);
         // _dbContext.Remove(item);
