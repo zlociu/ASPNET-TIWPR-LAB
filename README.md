@@ -5,13 +5,15 @@ Zadanie można zrealizować na komputerach z Windows i Linux.
 
 ### Przygotowanie środowiska
 1. Należy pobrać SDK .NET w wersji 5.0. Link: <https://dotnet.microsoft.com/download/dotnet/5.0>.  
-   Na systemie Linux można spróbować pobrać, wykorzystując dostarczony menedżer pakietów.  
-   Lista wspieranych dystrybucji linuxa: <https://docs.microsoft.com/pl-pl/dotnet/core/install/linux>. 
+   Na systemie Linux można spróbować pobrać, wykorzystując menedżer pakietów (apt, dnf, itp.).  
+   Lista wspieranych dystrybucji Linuxa: <https://docs.microsoft.com/pl-pl/dotnet/core/install/linux>. 
 2. Sklonować ten projekt na komputer.
-3. Serwer uruchamia się komendą: `dotnet run`;  
+3. W przypadku korzystania z Visual Studio Code, zainstalować dodatek __C#__.
+4. Serwer uruchamia się komendą: `dotnet run`;  
    do samej kompilacji, można wykorzystać komendę `dotnet build`.
-4. Możliwe że będzie potrzeba doinstalować pakiet __Nuget__ umożliwiający korzystanie z _Entity Framework_ w wersji _In Memory_.  
+5. Możliwe że będzie potrzeba doinstalować pakiet __Nuget__ umożliwiający korzystanie z _Entity Framework_ w wersji _In Memory_.
 `dotnet add package Microsoft.EntityFrameworkCore.InMemory`
+6. W przypadku problemów z certyfikatem na Windows: `dotnet dev-certs https --trust`
 
 ### Zajęcia
 Umieszczony w repozytorium projekt wymaga uzupełnienia kodu do poprawnego działania.  
