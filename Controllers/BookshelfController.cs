@@ -32,13 +32,15 @@ namespace Zajecia_ASPNET.Controllers
         {
             return StatusCode(418, new { test = "Hello, I'm a teapot!!" });
         }
-    
+
         [HttpGet]
         [Route("")]
         [Route("[action]")]
-        public IActionResult List()
+        public IActionResult List([FromQuery] int? sort)
         {
-            
+            if(sort == 1) ViewData["BookList"] = _dbContext.Books.OrderBy((x) => x.YearOfPublication).ToList();
+            else ViewData["BookList"] = _dbContext.Books.ToList();
+            return View();
         }
 
         //[HttpGet]
@@ -54,13 +56,25 @@ namespace Zajecia_ASPNET.Controllers
         [Route("[action]")]
         public IActionResult Add()
         {
-            
+            return View();
         }
 
         [HttpPost]
         [Route("[action]")]
         public IActionResult Add([FromForm] BookModel model)
         {   
+            if(ModelState.IsValid)
+            {
+                _dbContext.Books.Add(model);
+                _dbContext.SaveChanges();
+                ViewData["success"] = "Succesfully added new item";
+                return View();
+            }
+            else
+            {
+                ViewData["error"] = "Invalid data";
+                return View();
+            }
             
         }
 
@@ -68,38 +82,74 @@ namespace Zajecia_ASPNET.Controllers
         [Route("[action]")]
         public IActionResult AddBody([FromBody] BookModel model)
         {   
-            
+            if(ModelState.IsValid)
+            {
+                _dbContext.Books.Add(model);
+                _dbContext.SaveChanges();
+                
+                return StatusCode(201, new {status = "success"});
+            }
+            else
+            {
+                return BadRequest(new {status="error"});
+            }
         }
 
         [HttpDelete]
         [Route("[action]/{id:int}")]
         public IActionResult Delete([FromRoute] int id)
         {   
-            
+            if(ModelState.IsValid)
+            {
+                var item = _dbContext.Books.Find(id);
+                if(item != null)
+                { 
+                    _dbContext.Remove(item);
+                    _dbContext.SaveChanges();
+                    return Ok(new {status = "Success"});
+                }
+                else
+                {
+                   return BadRequest(new {status = "Error - wrong ID"});
+                }
+            }
+            else
+            {
+                return BadRequest(new {status = "Error - wrong query"});  
+            }
         }
 
         [HttpGet]
         [Route("[action]")]
         public IActionResult Update([FromQuery] int id)
         {
-            
+            var book = _dbContext.Books.FirstOrDefault((x) => x.BookId == id);
+            return View(book);
         }
 
         [HttpPost]
         [Route("[action]")]
         public IActionResult Update([FromForm] BookModel model)
         {
-            
+            _dbContext.Books.Update(model);
+            _dbContext.SaveChanges();
+
+            return RedirectToAction("List");
         }
 
         [HttpGet]
         [Route("[action]")]
         public IActionResult ListFilter([FromQuery] int year)
         {   
-            
+            var yr = year;
+            if(yr < 1900 || yr > DateTime.Now.Year) return RedirectToAction("List");
+            ViewData["BookList"] = (from book in _dbContext.Books 
+                                    where book.YearOfPublication > yr
+                                    select book).ToList();
+
+            return View("List");
         }
     }
-
 
     /* --------------------------------< ZADANIA >------------------------------
 
